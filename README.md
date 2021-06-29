@@ -17,6 +17,18 @@ This template demonstrates how to deploy a NodeJS function running on AWS Lambda
 
 ## Usage
 
+### Setup
+
+```yml
+org: [[SLS_ORG_NAME]] # this is the org name in your serverless.com account in your serverless.com account
+app: [[SLS_APP_NAME]] # this is the org name in your serverless.com account in your serverless.com account
+service: [[SLS_SERVICE_NAME]] # this is the service name for the function
+
+environment:
+  POOL_ID: [[COGNITO_POOL_ID]] # this is the cognito pool id in you aws account
+  CLIENT_ID: [[COGNITO_CLIENT_ID]] # this is the client id for the cognito user pool in your aws account
+```
+
 ### Deployment
 
 In order to deploy the example, you need to run the following command:
