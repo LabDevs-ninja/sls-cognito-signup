@@ -8,19 +8,13 @@ const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 module.exports.main = async (event) => {
 
   const body = JSON.parse(event.body);
-  const {email} = body;
-  const {password} = body;
+  const {email,password} = body;
 
   if(checkEmail(email) && checkPassword(password)){
 
     var returnData = {}
 
-    var attributeList = [];
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:"test"}));
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:"male"}));
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:"1991-06-21"}));
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:"CMB"}));
-    attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email}));      
+    var attributeList = buildAttributes(body);
     
     const poolData = {    
       UserPoolId : process.env.POOL_ID,
@@ -73,7 +67,7 @@ function checkEmail(email){
   return emailValidator.validate(email);
 }
 
-function checkPassword(){
+function checkPassword(password){
   var schema = new passwordValidator();
 
   schema
@@ -84,3 +78,26 @@ function checkPassword(){
   
   return schema.validate(password);
 }
+
+function buildAttributes(body){
+
+    const {email,name,gender,birthdate,address} = body;
+
+    const attributeList = [];
+
+    if(name)
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:name}));
+    if(gender)  
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:gender}));
+    if(birthdate) //  ex. 1991-06-21
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:birthdate}));
+    if(address)  
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:address}));
+    if(email)
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email})); 
+
+    return attributeList;  
+
+}
+
+    

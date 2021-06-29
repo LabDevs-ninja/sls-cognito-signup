@@ -15,7 +15,7 @@ provider:
   environment:
     POOL_ID: [[COGNITO_POOL_ID]]
     CLIENT_ID: [[COGNITO_CLIENT_ID]]
-  
+    
 functions:
   main:
     handler: handler.main 
