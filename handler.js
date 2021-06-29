@@ -8,7 +8,7 @@ const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 module.exports.main = async (event) => {
 
   const body = JSON.parse(event.body);
-  const {email,password} = body;
+  const {username,email,password} = body;
 
   if(checkEmail(email) && checkPassword(password)){
 
@@ -25,7 +25,7 @@ module.exports.main = async (event) => {
 
     returnData = await new Promise((resolve, reject) => {
 
-      userPool.signUp(email, password, attributeList, null, function(err, result){
+      userPool.signUp(username, password, attributeList, null, function(err, result){
         if (err) {
           console.log(err);
           returnData = { 'result ' : 'fail', 'data' : err.message}
