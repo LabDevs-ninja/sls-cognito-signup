@@ -75,7 +75,9 @@ serverless invoke --function main
 ```
 You can also run local api with:
 
+```bash
 serverless offline
+```
 
 The endpoint for the signup api is /user/signup with the following payload
 
