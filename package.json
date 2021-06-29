@@ -1,0 +1,22 @@
+{
+  "name": "exemple-user-managment",
+  "version": "1.0.0",
+  "description": "<!-- title: 'AWS NodeJS Example' description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.' layout: Doc framework: v2 platform: AWS language: nodeJS authorLink: 'https://github.com/serverless' authorName: 'Serverless, inc.' authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4' -->",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-cognito-identity-js": "^5.0.3",
+    "aws-sdk": "^2.935.0",
+    "email-validator": "^2.0.4",
+    "password-validator": "^5.1.1",
+    "serverless-plugin-cognito-identity": "^0.1.1"
+  },
+  "devDependencies": {
+    "serverless-deployment-bucket": "^1.5.1",
+    "serverless-offline": "^7.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+org: [[SLS_ORG_NAME]]
+app: [[SLS_APP_NAME]]
+service: [[SLS_SERVICE_NAME]]
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: sls-cognito-signup-${self:provider.stage}
+    serverSideEncryption: AES256
+  environment:
+    POOL_ID: [[COGNITO_POOL_ID]]
+    CLIENT_ID: [[COGNITO_CLIENT_ID]]
+  
+functions:
+  main:
+    handler: handler.main 
+    events:
+      - http:
+          path: /user/signup
+          method: post
+          cors: true
+
+plugins:
+  - serverless-deployment-bucket    
+  - serverless-offline
