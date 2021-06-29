@@ -1,19 +1,19 @@
 <!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'
+title: 'Serverless Cognito Signup Example'
+description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda that uses cognito for signup.'
 layout: Doc
 framework: v2
 platform: AWS
 language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
+authorLink: 'https://github.com/LabDevs-ninja'
+authorName: 'José Menezes @ LabDevs.ninja'
+authorAvatar: 'https://avatars.githubusercontent.com/u/2001467?s=60&v=4'
 -->
 
 
-# Serverless Framework AWS NodeJS Example
+# Serverless Cognito Signup Example
 
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
+This template demonstrates how to deploy a NodeJS function running on AWS Lambda that uses cognito for signup.
 
 ## Usage
 
@@ -49,7 +49,7 @@ region: us-east-1
 stack: aws-node-dev
 resources: 6
 functions:
-  api: aws-node-dev-hello
+  api: aws-node-dev-main
 layers:
   None
 ```
@@ -59,31 +59,17 @@ layers:
 After successful deployment, you can invoke the deployed function by using the following command:
 
 ```bash
-serverless invoke --function hello
+serverless invoke --function main
 ```
+You can also run local api with:
 
-Which should result in response similar to the following:
+serverless offline
+
+The endpoint for the signup api is /user/signup with the following payload
 
 ```json
 {
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v2.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v2.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
+  "email":"",
+  "password":""
 }
 ```
