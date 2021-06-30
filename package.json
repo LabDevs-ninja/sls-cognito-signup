@@ -1,12 +1,12 @@
 {
-  "name": "sls-cognito-signup",
+  "name": "sls-cognito-user-management",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "jose.menezes@labdevs.ninja",
   "license": "ISC",
   "dependencies": {
     "amazon-cognito-identity-js": "^5.0.3",

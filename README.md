@@ -1,6 +1,6 @@
 <!--
-title: 'Serverless Cognito Signup Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda that uses cognito for signup.'
+title: 'Serverless Cognito User Management'
+description: 'This serverless project exposes the api's for cognito user managment.'
 layout: Doc
 framework: v2
 platform: AWS
@@ -13,7 +13,7 @@ authorAvatar: 'https://avatars.githubusercontent.com/u/2001467?s=60&v=4'
 
 # Serverless Cognito Signup Example
 
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda that uses cognito for signup.
+This serverless project exposes the api's for cognito user managment.
 
 ## Usage
 
