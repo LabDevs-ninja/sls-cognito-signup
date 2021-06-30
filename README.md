@@ -37,44 +37,6 @@ In order to deploy the example, you need to run the following command:
 $ serverless deploy
 ```
 
-After running deploy, you should see output similar to:
-
-```bash
-Serverless: Using provider credentials, configured via dashboard:
-Serverless: Using deployment bucket 'sls-cognito-user-managment'
-Serverless: Packaging service...
-Serverless: Excluding development dependencies...
-Serverless: Installing dependencies for custom CloudFormation resources...
-Serverless: Using deployment bucket 'sls-cognito-user-managment'
-Serverless: Uploading CloudFormation file to S3...
-Serverless: Uploading artifacts...
-Serverless: Uploading service sls-cognito-user-managment.zip file to S3 (12.94 MB)...
-Serverless: Uploading custom CloudFormation resources...
-Serverless: Validating template...
-Serverless: Creating Stack...
-Serverless: Checking Stack create progress...
-................................................................................
-Serverless: Stack create finished...
-Service Information
-service: sls-cognito-user-managment
-stage: dev
-region: us-east-1
-stack: sls-cognito-user-managment-dev
-resources: 26
-api keys:
-  None
-endpoints:
-  POST - https://bdvfua60kk.execute-api.us-east-1.amazonaws.com/dev/user/signup
-  POST - https://bdvfua60kk.execute-api.us-east-1.amazonaws.com/dev/user/confirmRegistration
-functions:
-  signup: sls-cognito-user-managment-dev-signup
-  confirmRegistration: sls-cognito-user-managment-dev-confirmRegistration
-layers:
-  None
-Serverless: Publishing service to the Serverless Dashboard...
-Serverless: Successfully published your service to the Serverless Dashboard: 
-```
-
 ### Invocation
 
 After successful deployment, you can invoke the deployed function by using the following command:
@@ -91,14 +53,16 @@ serverless offline
 After running offline, you should see output similar to:
 
 ```bash
-   ┌───────────────────────────────────────────────────────────────────────────────────────┐
-   │                                                                                       │
-   │   POST | http://localhost:3000/dev/user/signup                                        │
-   │   POST | http://localhost:3000/2015-03-31/functions/signup/invocations                │
-   │   POST | http://localhost:3000/dev/user/confirmRegistration                           │
-   │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations   │
-   │                                                                                       │
-   └───────────────────────────────────────────────────────────────────────────────────────┘
+   ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+   │                                                                                          │
+   │   POST | http://localhost:3000/dev/user/signup                                           │
+   │   POST | http://localhost:3000/2015-03-31/functions/signup/invocations                   │
+   │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
+   │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations      │
+   │   POST | http://localhost:3000/dev/user/resendConfirmationCode                           │
+   │   POST | http://localhost:3000/2015-03-31/functions/resendConfirmationCode/invocations   │
+   │                                                                                          │
+   └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 The endpoint for the signup api is /user/signup with the following payload
