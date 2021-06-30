@@ -82,3 +82,11 @@ The endpoint for the signup api is /user/confirmRegistration with the following 
     "verificationCode":""
 }
 ```
+
+The endpoint for the signup api is /user/resendConfirmationCode  with the following payload
+
+```json
+{
+    "username":""
+}
+```
