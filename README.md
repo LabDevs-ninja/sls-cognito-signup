@@ -40,30 +40,39 @@ $ serverless deploy
 After running deploy, you should see output similar to:
 
 ```bash
+Serverless: Using provider credentials, configured via dashboard:
+Serverless: Using deployment bucket 'sls-cognito-user-managment'
 Serverless: Packaging service...
 Serverless: Excluding development dependencies...
-Serverless: Creating Stack...
-Serverless: Checking Stack create progress...
-........
-Serverless: Stack create finished...
+Serverless: Installing dependencies for custom CloudFormation resources...
+Serverless: Using deployment bucket 'sls-cognito-user-managment'
 Serverless: Uploading CloudFormation file to S3...
 Serverless: Uploading artifacts...
-Serverless: Uploading service aws-node.zip file to S3 (711.23 KB)...
+Serverless: Uploading service sls-cognito-user-managment.zip file to S3 (12.94 MB)...
+Serverless: Uploading custom CloudFormation resources...
 Serverless: Validating template...
-Serverless: Updating Stack...
-Serverless: Checking Stack update progress...
-.................................
-Serverless: Stack update finished...
+Serverless: Creating Stack...
+Serverless: Checking Stack create progress...
+................................................................................
+Serverless: Stack create finished...
 Service Information
-service: aws-node
+service: sls-cognito-user-managment
 stage: dev
 region: us-east-1
-stack: aws-node-dev
-resources: 6
+stack: sls-cognito-user-managment-dev
+resources: 26
+api keys:
+  None
+endpoints:
+  POST - https://bdvfua60kk.execute-api.us-east-1.amazonaws.com/dev/user/signup
+  POST - https://bdvfua60kk.execute-api.us-east-1.amazonaws.com/dev/user/confirmRegistration
 functions:
-  api: aws-node-dev-main
+  signup: sls-cognito-user-managment-dev-signup
+  confirmRegistration: sls-cognito-user-managment-dev-confirmRegistration
 layers:
   None
+Serverless: Publishing service to the Serverless Dashboard...
+Serverless: Successfully published your service to the Serverless Dashboard: 
 ```
 
 ### Invocation
@@ -77,7 +86,11 @@ You can also run local api with:
 
 ```bash
 serverless offline
+```
 
+After running deploy, you should see output similar to:
+
+```bash
    ┌───────────────────────────────────────────────────────────────────────────────────────┐
    │                                                                                       │
    │   POST | http://localhost:3000/dev/user/signup                                        │
@@ -86,8 +99,6 @@ serverless offline
    │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations   │
    │                                                                                       │
    └───────────────────────────────────────────────────────────────────────────────────────┘
-
-
 ```
 
 The endpoint for the signup api is /user/signup with the following payload

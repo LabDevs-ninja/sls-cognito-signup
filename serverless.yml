@@ -10,7 +10,7 @@ provider:
   stage: dev
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: sls-cognito-signup-${self:provider.stage}
+    name: sls-cognito-user-managment-${self:provider.stage}
     serverSideEncryption: AES256
   environment:
     POOL_ID: [[COGNITO_POOL_ID]]
