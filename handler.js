@@ -5,7 +5,12 @@ const emailValidator = require("email-validator");
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
-module.exports.main = async (event) => {
+const poolData = {    
+  UserPoolId : process.env.POOL_ID,
+  ClientId : process.env.CLIENT_ID 
+};
+
+module.exports.signup = async (event) => {
 
   const body = JSON.parse(event.body);
   const {username,email,password} = body;
@@ -16,11 +21,6 @@ module.exports.main = async (event) => {
 
     var attributeList = buildAttributes(body);
     
-    const poolData = {    
-      UserPoolId : process.env.POOL_ID,
-      ClientId : process.env.CLIENT_ID 
-    }; 
-
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
     returnData = await new Promise((resolve, reject) => {
@@ -63,41 +63,85 @@ module.exports.main = async (event) => {
   };
 }
 
-function checkEmail(email){
-  return emailValidator.validate(email);
-}
 
-function checkPassword(password){
-  var schema = new passwordValidator();
+module.exports.confirmRegistration = async (event) => {
 
-  schema
-  .is().min(8)                                    // Minimum length 8
-  .has().uppercase()                              // Must have uppercase letters
-  .has().lowercase()                              // Must have lowercase letters
-  .has().symbols()                                // Must have at least 2 digits
+  const body = JSON.parse(event.body);
+  const {verificationCode,username} = body;
+
+    var returnData = {}
+
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    
+    var userData = {
+      Username: username,
+      Pool: userPool,
+    };
+    
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+    returnData = await new Promise((resolve, reject) => {
+
+      cognitoUser.confirmRegistration(verificationCode, true, function(err, result) {
+        if (err) {
+          resolve(err.message || JSON.stringify(err));
+          return;
+        }
+        resolve(result);
+      });
+
+    });
+    
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: returnData
+        },
+      ),
+    };
+
+  }
+
+  /**
+   *  Helper methods
+   */
+
+  function checkEmail(email){
+    return emailValidator.validate(email);
+  }
   
-  return schema.validate(password);
-}
-
-function buildAttributes(body){
-
-    const {email,name,gender,birthdate,address} = body;
-
-    const attributeList = [];
-
-    if(name)
-      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:name}));
-    if(gender)  
-      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:gender}));
-    if(birthdate) //  ex. 1991-06-21
-      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:birthdate}));
-    if(address)  
-      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:address}));
-    if(email)
-      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email})); 
-
-    return attributeList;  
-
-}
+  function checkPassword(password){
+    var schema = new passwordValidator();
+  
+    schema
+    .is().min(8)                                    // Minimum length 8
+    .has().uppercase()                              // Must have uppercase letters
+    .has().lowercase()                              // Must have lowercase letters
+    .has().symbols()                                // Must have at least 2 digits
+    
+    return schema.validate(password);
+  }
+  
+  function buildAttributes(body){
+  
+      const {email,name,gender,birthdate,address} = body;
+  
+      const attributeList = [];
+  
+      if(name)
+        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:name}));
+      if(gender)  
+        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:gender}));
+      if(birthdate) //  ex. 1991-06-21
+        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:birthdate}));
+      if(address)  
+        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:address}));
+      if(email)
+        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email})); 
+  
+      return attributeList;  
+  
+  }
 
     

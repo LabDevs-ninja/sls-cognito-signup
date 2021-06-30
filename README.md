@@ -77,6 +77,17 @@ You can also run local api with:
 
 ```bash
 serverless offline
+
+   ┌───────────────────────────────────────────────────────────────────────────────────────┐
+   │                                                                                       │
+   │   POST | http://localhost:3000/dev/user/signup                                        │
+   │   POST | http://localhost:3000/2015-03-31/functions/signup/invocations                │
+   │   POST | http://localhost:3000/dev/user/confirmRegistration                           │
+   │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations   │
+   │                                                                                       │
+   └───────────────────────────────────────────────────────────────────────────────────────┘
+
+
 ```
 
 The endpoint for the signup api is /user/signup with the following payload
@@ -85,5 +96,14 @@ The endpoint for the signup api is /user/signup with the following payload
 {
   "email":"",
   "password":""
+}
+```
+
+The endpoint for the signup api is /user/confirmRegistration with the following payload
+
+```json
+{
+    "username":"",
+    "verificationCode":""
 }
 ```

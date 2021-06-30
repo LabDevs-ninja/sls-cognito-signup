@@ -17,13 +17,20 @@ provider:
     CLIENT_ID: [[COGNITO_CLIENT_ID]]
     
 functions:
-  main:
-    handler: handler.main 
+  signup:
+    handler: handler.signup 
     events:
       - http:
           path: /user/signup
           method: post
           cors: true
+  confirmRegistration:
+    handler: handler.confirmRegistration 
+    events:
+      - http:
+          path: /user/confirmRegistration
+          method: post
+          cors: true        
 
 plugins:
   - serverless-deployment-bucket    
