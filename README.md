@@ -88,7 +88,7 @@ You can also run local api with:
 serverless offline
 ```
 
-After running deploy, you should see output similar to:
+After running offline, you should see output similar to:
 
 ```bash
    ┌───────────────────────────────────────────────────────────────────────────────────────┐
