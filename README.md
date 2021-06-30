@@ -61,6 +61,8 @@ After running offline, you should see output similar to:
    │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations      │
    │   POST | http://localhost:3000/dev/user/resendConfirmationCode                           │
    │   POST | http://localhost:3000/2015-03-31/functions/resendConfirmationCode/invocations   │
+   │   POST | http://localhost:3000/dev/user/auth                                             │
+   │   POST | http://localhost:3000/2015-03-31/functions/auth/invocations                     │
    │                                                                                          │
    └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -69,8 +71,9 @@ The endpoint for the signup api is /user/signup with the following payload
 
 ```json
 {
-  "email":"",
-  "password":""
+    "username":"",
+    "email":"",
+    "password":""
 }
 ```
 
@@ -88,5 +91,15 @@ The endpoint for the signup api is /user/resendConfirmationCode  with the follow
 ```json
 {
     "username":""
+}
+```
+
+
+The endpoint for the signup api is /user/auth  with the following payload
+
+```json
+{
+    "username":"",
+    "password":""
 }
 ```

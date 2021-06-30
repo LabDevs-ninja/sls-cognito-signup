@@ -63,7 +63,6 @@ module.exports.signup = async (event) => {
   };
 }
 
-
 module.exports.confirmRegistration = async (event) => {
 
   const body = JSON.parse(event.body);
@@ -101,87 +100,139 @@ module.exports.confirmRegistration = async (event) => {
       ),
     };
 
-  }
+}
 
-  module.exports.resendConfirmationCode = async (event) => {
+module.exports.resendConfirmationCode = async (event) => {
 
-    const body = JSON.parse(event.body);
-    const {username} = body;
-  
-      var returnData = {}
-  
-      const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-      
-      var userData = {
-        Username: username,
-        Pool: userPool,
-      };
-      
-      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-  
-      returnData = await new Promise((resolve, reject) => {
-  
-        cognitoUser.resendConfirmationCode(function(err, result) {
-          if (err) {
-            resolve(err.message || JSON.stringify(err));
-            return;
-          }
-          resolve(result);
-        });
-  
+  const body = JSON.parse(event.body);
+  const {username} = body;
+
+    var returnData = {}
+
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    
+    var userData = {
+      Username: username,
+      Pool: userPool,
+    };
+    
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+    returnData = await new Promise((resolve, reject) => {
+
+      cognitoUser.resendConfirmationCode(function(err, result) {
+        if (err) {
+          resolve(err.message || JSON.stringify(err));
+          return;
+        }
+        resolve(result);
       });
-      
+
+    });
+    
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: returnData
+        },
+      ),
+    };
+
+}
+
+module.exports.auth = async (event) => {
+
+  const body = JSON.parse(event.body);
+  const {username,password} = body;
+
+    var returnData = {}
+
+    var authenticationData = {
+      Username: username,
+      Password: password,
+    };
+    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
+      authenticationData
+    );
+
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    
+    var userData = {
+      Username: username,
+      Pool: userPool,
+    };
+    
+    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+    try{
+    returnData = await new Promise((resolve, reject) =>
+      cognitoUser.authenticateUser(authenticationDetails, {
+      onSuccess: result => resolve(result),
+      onFailure: err => reject(err)
+      })
+    );
+    }catch (e){
       return {
-        statusCode: 200,
+        statusCode: 400,
         body: JSON.stringify(
           {
-            message: returnData
+            message: e
           },
         ),
       };
-  
-  }
+    }
 
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: returnData
+        },
+      ),
+    };
 
-  /**
-   *  Helper methods
-   */
+}
 
-  function checkEmail(email){
-    return emailValidator.validate(email);
-  }
+/**
+ *  Helper methods
+ */
+
+function checkEmail(email){
+  return emailValidator.validate(email);
+}
+
+function checkPassword(password){
+  var schema = new passwordValidator();
+
+  schema
+  .is().min(8)                                    // Minimum length 8
+  .has().uppercase()                              // Must have uppercase letters
+  .has().lowercase()                              // Must have lowercase letters
+  .has().symbols()                                // Must have at least 2 digits
   
-  function checkPassword(password){
-    var schema = new passwordValidator();
-  
-    schema
-    .is().min(8)                                    // Minimum length 8
-    .has().uppercase()                              // Must have uppercase letters
-    .has().lowercase()                              // Must have lowercase letters
-    .has().symbols()                                // Must have at least 2 digits
-    
-    return schema.validate(password);
-  }
-  
-  function buildAttributes(body){
-  
-      const {email,name,gender,birthdate,address} = body;
-  
-      const attributeList = [];
-  
-      if(name)
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:name}));
-      if(gender)  
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:gender}));
-      if(birthdate) //  ex. 1991-06-21
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:birthdate}));
-      if(address)  
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:address}));
-      if(email)
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email})); 
-  
-      return attributeList;  
-  
-  }
+  return schema.validate(password);
+}
+
+function buildAttributes(body){
+
+    const {email,name,gender,birthdate,address} = body;
+
+    const attributeList = [];
+
+    if(name)
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"name",Value:name}));
+    if(gender)  
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"gender",Value:gender}));
+    if(birthdate) //  ex. 1991-06-21
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"birthdate",Value:birthdate}));
+    if(address)  
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"address",Value:address}));
+    if(email)
+      attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email})); 
+
+    return attributeList;  
+
+}
 
     
