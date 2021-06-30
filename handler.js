@@ -103,6 +103,46 @@ module.exports.confirmRegistration = async (event) => {
 
   }
 
+  module.exports.resendConfirmationCode = async (event) => {
+
+    const body = JSON.parse(event.body);
+    const {username} = body;
+  
+      var returnData = {}
+  
+      const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+      
+      var userData = {
+        Username: username,
+        Pool: userPool,
+      };
+      
+      var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+  
+      returnData = await new Promise((resolve, reject) => {
+  
+        cognitoUser.resendConfirmationCode(function(err, result) {
+          if (err) {
+            resolve(err.message || JSON.stringify(err));
+            return;
+          }
+          resolve(result);
+        });
+  
+      });
+      
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          {
+            message: returnData
+          },
+        ),
+      };
+  
+  }
+
+
   /**
    *  Helper methods
    */

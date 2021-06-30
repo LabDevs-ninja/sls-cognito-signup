@@ -30,7 +30,14 @@ functions:
       - http:
           path: /user/confirmRegistration
           method: post
-          cors: true        
+          cors: true
+  resendConfirmationCode:
+    handler: handler.resendConfirmationCode 
+    events:
+      - http:
+          path: /user/resendConfirmationCode
+          method: post
+          cors: true             
 
 plugins:
   - serverless-deployment-bucket    
