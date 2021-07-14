@@ -15,6 +15,13 @@ authorAvatar: 'https://avatars.githubusercontent.com/u/2001467?s=60&v=4'
 
 This serverless project exposes the api's for cognito user managment.
 
+```http
+user/signup
+user/confirmRegistration
+user/resendConfirmationCode
+user/auth
+```
+
 ## Usage
 
 ### Setup
