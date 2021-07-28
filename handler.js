@@ -194,6 +194,19 @@ module.exports.auth = async (event) => {
 
 }
 
+module.exports.isauth = async (event) => {
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: '🚀'
+        },
+      ),
+    };
+
+}
+
 /**
  *  Helper methods
  */

@@ -1,6 +1,4 @@
-org: [[SLS_ORG_NAME]]
-app: [[SLS_APP_NAME]]
-service: [[SLS_SERVICE_NAME]]
+service: sls-user-managment
 
 frameworkVersion: '2'
 
@@ -14,9 +12,9 @@ provider:
     serverSideEncryption: AES256
   environment:
     POOL_ID: [[COGNITO_POOL_ID]]
-    CLIENT_ID: [[COGNITO_CLIENT_ID]]
+    CLIENT_ID: [[COGNITO_CLIENT_ID]]    
     
-functions:
+functions:  
   signup:
     handler: handler.signup 
     events:
@@ -44,7 +42,16 @@ functions:
       - http:
           path: /user/auth
           method: post
-          cors: true        
+          cors: true
+  isAuth:
+    handler: handler.isauth
+    events:
+      - http:
+          path: /user/isauth
+          method: get
+          cors: true
+          authorizer:
+            arn: arn:aws:cognito-idp:us-east-1:[[{{FILL}}]]:userpool/us-east-1_[[{{FILL}}]]
 
 plugins:
   - serverless-deployment-bucket    

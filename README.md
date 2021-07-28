@@ -20,6 +20,21 @@ user/signup
 user/confirmRegistration
 user/resendConfirmationCode
 user/auth
+user/isauth
+```
+
+## Dependencias
+
+node
+npm
+awscli
+```bash
+npm i aws-cli
+```
+
+serverless 
+```bash
+npm install -g serverless
 ```
 
 ## Usage
@@ -109,4 +124,10 @@ The endpoint for the signup api is /user/auth  with the following payload
     "username":"",
     "password":""
 }
+```
+
+The endpoint for the signup api is /user/isauth  with the following payload
+
+```yml
+BEARER_TOKEN : JWT
 ```
