@@ -49,6 +49,9 @@ service: [[SLS_SERVICE_NAME]] # this is the service name for the function
 environment:
   POOL_ID: [[COGNITO_POOL_ID]] # this is the cognito pool id in you aws account
   CLIENT_ID: [[COGNITO_CLIENT_ID]] # this is the client id for the cognito user pool in your aws account
+
+authorizer:
+    arn: [[COGNITO_POOL_ID]] #Ex.( arn:aws:cognito-idp:us-east-1:[[{{FILL}}]]:userpool/us-east-1_[[{{FILL}}]] )
 ```
 
 ### Deployment
@@ -78,14 +81,13 @@ After running offline, you should see output similar to:
    ┌──────────────────────────────────────────────────────────────────────────────────────────┐
    │                                                                                          │
    │   POST | http://localhost:3000/dev/user/signup                                           │
-   │   POST | http://localhost:3000/2015-03-31/functions/signup/invocations                   │
    │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
-   │   POST | http://localhost:3000/2015-03-31/functions/confirmRegistration/invocations      │
+   │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
+   │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
    │   POST | http://localhost:3000/dev/user/resendConfirmationCode                           │
-   │   POST | http://localhost:3000/2015-03-31/functions/resendConfirmationCode/invocations   │
    │   POST | http://localhost:3000/dev/user/auth                                             │
-   │   POST | http://localhost:3000/2015-03-31/functions/auth/invocations                     │
-   │                                                                                          │
+   │   POST | http://localhost:3000/dev/user/isauth                                           │
+   │                                                                                          │                                                                                       
    └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 

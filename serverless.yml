@@ -51,7 +51,7 @@ functions:
           method: get
           cors: true
           authorizer:
-            arn: arn:aws:cognito-idp:us-east-1:[[{{FILL}}]]:userpool/us-east-1_[[{{FILL}}]]
+            arn: [[COGNITO_POOL_ID]]
 
 plugins:
   - serverless-deployment-bucket    
