@@ -131,3 +131,10 @@ The endpoint for the signup api is /user/isauth  with the following payload
 ```yml
 BEARER_TOKEN : JWT
 ```
+
+## TODO
+
+* [Unit Test](https://www.serverless.com/blog/unit-testing-nodejs-serverless-jest)
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
