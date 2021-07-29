@@ -11,7 +11,7 @@ authorAvatar: 'https://avatars.githubusercontent.com/u/2001467?s=60&v=4'
 -->
 
 
-# Serverless Cognito Signup Example
+# Serverless Cognito User Managment
 
 This serverless project exposes the api's for cognito user managment.
 
