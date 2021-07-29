@@ -82,12 +82,10 @@ After running offline, you should see output similar to:
    │                                                                                          │
    │   POST | http://localhost:3000/dev/user/signup                                           │
    │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
-   │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
-   │   POST | http://localhost:3000/dev/user/confirmRegistration                              │
    │   POST | http://localhost:3000/dev/user/resendConfirmationCode                           │
    │   POST | http://localhost:3000/dev/user/auth                                             │
    │   POST | http://localhost:3000/dev/user/isauth                                           │
-   │                                                                                          │                                                                                       
+   │                                                                                          │     
    └──────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
