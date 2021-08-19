@@ -13,6 +13,12 @@ provider:
   environment:
     POOL_ID: [[COGNITO_POOL_ID]]
     CLIENT_ID: [[COGNITO_CLIENT_ID]]    
+
+layers:
+  nodeModules:
+    path: layer
+    compatibleRuntimes:
+      - nodejs12.x
     
 functions:  
   signup:
@@ -56,3 +62,4 @@ functions:
 plugins:
   - serverless-deployment-bucket    
   - serverless-offline
+  - serverless-plugin-typescript
