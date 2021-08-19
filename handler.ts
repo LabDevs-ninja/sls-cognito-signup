@@ -1,8 +1,9 @@
 'use strict';
-const AWS = require('aws-sdk');
-const passwordValidator = require('password-validator');
-const emailValidator = require("email-validator");
-const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+import AWS from 'aws-sdk';
+import passwordValidator from 'password-validator';
+import emailValidator from "email-validator";
+import AmazonCognitoIdentity, { CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { User } from './User';
 const CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 
 const poolData = {    
@@ -10,22 +11,22 @@ const poolData = {
   ClientId : process.env.CLIENT_ID 
 };
 
-module.exports.signup = async (event) => {
+module.exports.signup = async (event: { body: string; }) => {
 
   const body = JSON.parse(event.body);
-  const {username,email,password} = body;
+  let user:User = Object.assign(new User(), body);
 
-  if(checkEmail(email) && checkPassword(password)){
+  if(checkEmail(user.email) && checkPassword(user.password)){
 
     var returnData = {}
 
-    var attributeList = buildAttributes(body);
+    var attributeList = buildAttributes(user);
     
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
-    returnData = await new Promise((resolve, reject) => {
+    returnData = await new Promise((resolve) => {
 
-      userPool.signUp(username, password, attributeList, null, function(err, result){
+      userPool.signUp(user.username, user.password, attributeList, null, function(err, result){
         if (err) {
           console.log(err);
           returnData = { 'result ' : 'fail', 'data' : err.message}
@@ -63,25 +64,25 @@ module.exports.signup = async (event) => {
   };
 }
 
-module.exports.confirmRegistration = async (event) => {
+module.exports.confirmRegistration = async (event: { body: string; }) => {
 
   const body = JSON.parse(event.body);
-  const {verificationCode,username} = body;
+  let user:User = Object.assign(new User(), body);
 
     var returnData = {}
 
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     
     var userData = {
-      Username: username,
-      Pool: userPool,
+      Username: user.username,
+      Pool: user.userPool,
     };
     
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
     returnData = await new Promise((resolve, reject) => {
 
-      cognitoUser.confirmRegistration(verificationCode, true, function(err, result) {
+      cognitoUser.confirmRegistration(user.verificationCode, true, function(err, result) {
         if (err) {
           resolve(err.message || JSON.stringify(err));
           return;
@@ -102,18 +103,18 @@ module.exports.confirmRegistration = async (event) => {
 
 }
 
-module.exports.resendConfirmationCode = async (event) => {
+module.exports.resendConfirmationCode = async (event: { body: string; }) => {
 
   const body = JSON.parse(event.body);
-  const {username} = body;
+  let user:User = Object.assign(new User(), body);
 
     var returnData = {}
 
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     
     var userData = {
-      Username: username,
-      Pool: userPool,
+      Username: user.username,
+      Pool: user.userPool,
     };
     
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
@@ -141,16 +142,16 @@ module.exports.resendConfirmationCode = async (event) => {
 
 }
 
-module.exports.auth = async (event) => {
+module.exports.auth = async (event: { body: string; }) => {
 
   const body = JSON.parse(event.body);
-  const {username,password} = body;
+  let user:User = Object.assign(new User(), body);
 
     var returnData = {}
 
     var authenticationData = {
-      Username: username,
-      Password: password,
+      Username: user.username,
+      Password: user.password,
     };
     var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
       authenticationData
@@ -159,8 +160,8 @@ module.exports.auth = async (event) => {
     const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
     
     var userData = {
-      Username: username,
-      Pool: userPool,
+      Username: user.username,
+      Pool: user.userPool,
     };
     
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
@@ -227,9 +228,9 @@ function checkPassword(password){
   return schema.validate(password);
 }
 
-function buildAttributes(body){
+function buildAttributes(user:User){
 
-    const {email,name,gender,birthdate,address} = body;
+    const {email,name,gender,birthdate,address} = user;
 
     const attributeList = [];
 

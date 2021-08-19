@@ -16,6 +16,7 @@
     "serverless-plugin-cognito-identity": "^0.1.1"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
     "serverless-deployment-bucket": "^1.5.1",
     "serverless-offline": "^7.0.0",
     "serverless-plugin-typescript": "^1.1.9",
